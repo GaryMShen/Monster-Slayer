@@ -1,8 +1,12 @@
 from math import *
 from time import *
 from random import *
-from bossFights import *
+from tkinter import *
+
 global health, power, defense
+
+
+
 originalHealth = 50
 health = originalHealth 
 power = 1
@@ -30,6 +34,7 @@ bossHealth = [60]
 bossSlayed = 0
 numGoblins = 3
 
+
 def encounterMonster(monster, i):
     global health, defense, monstersHealth, damage, monstersDamage, hasGoblinSword, hasRaggedLeatherVest
     global exp, monsterSlayed, monstersExp, power
@@ -40,6 +45,7 @@ def encounterMonster(monster, i):
     if encounter == "f":
         currentMonstersHealth = monstersHealth[i]
         currentMonstersExp = monstersExp[i]
+        
 
         bothAlive = True
         while bothAlive == True:
@@ -49,13 +55,19 @@ def encounterMonster(monster, i):
             gr = randint(4,6)
             monstersDamage = [s, g, gr]
             currentMonstersDamage = monstersDamage[i]
+  #          s.create_rectangle(10, 10, 10 + health, 20, fill = "red")
+
             
             for i in range(0,len(moves)):
                 print(moves[i],"(",i,")")
             number = int(input("how will you attack? : "))
-            
-##            while number != 0 and number != 1:
-##                number = int(input("how will you attack? (please enter a valid input): "))
+            if len(moves) == 3:
+                while number != 0 and number != 1 and number !=2:
+                   number = int(input("how will you attack? (please enter a valid input): "))
+
+            elif len(moves) == 2:
+                while number != 0 and number != 1:
+                   number = int(input("how will you attack? (please enter a valid input): "))
                 
 
             attack = moves[number]
@@ -64,6 +76,8 @@ def encounterMonster(monster, i):
                 currentMonstersHealth = currentMonstersHealth - damage
                 print("you did", damage, "damage! the", monster,"'s health is now:", currentMonstersHealth)
                 print("slash again!")
+                pickedAttack(attack)
+
                 currentMonstersHealth = currentMonstersHealth - damage
                 print("you did", damage, "damage! the", monster,"'s health is now:", currentMonstersHealth)
             else:
@@ -135,7 +149,7 @@ def encounterMonster(monster, i):
 currentBossHealth = 60
 bothAlive = True
 
-def encounterBoss(boss, i):
+def encounterBoss(boss, i): #add individuals goblins health
     global health, defense, monstersHealth, damage, monstersDamage, currentBossHealth
     global exp, monsterSlayed, monstersExp, power, numGoblins, bossSlayed, bothAlive
 
@@ -155,15 +169,27 @@ def encounterBoss(boss, i):
             
             attack = moves[number]
             pickedAttack(attack)
+
+            if len(moves) == 3:
+                while number != 0 and number != 1 and number !=2:
+                   number = int(input("how will you attack? (please enter a valid input): "))
+
+            elif len(moves) == 2:
+                while number != 0 and number != 1:
+                   number = int(input("how will you attack? (please enter a valid input): "))
             if number == 2:
                 currentBossHealth = currentBossHealth - damage
                 print("you did", damage, "damage! the", boss,"'s health is now:", currentBossHealth)
                 print("slash again!")
+                pickedAttack(attack)
+
                 currentBossHealth = currentBossHealth - damage
                 print("you did", damage, "damage! the", boss,"'s health is now:", currentBossHealth)
+
             else:
                 currentBossHealth = currentBossHealth - damage
                 print("you did", damage, "damage! the", boss,"'s health is now:", currentBossHealth)
+
                 
             trueBossDamage = currentBossDamage - defense
             if currentBossHealth < 20:
@@ -197,9 +223,9 @@ def encounterBoss(boss, i):
             else:
                 for i in range(0,numGoblins):
                     health = health - trueBossDamage
-                    print(boss,"did", trueBossDamage, "damage! your health is now:", health)
+                    print("goblin", i, "did", trueBossDamage, "damage! your health is now:", health)
                             
-        return health, exp, monsterSlayed, power, bossSlayed
+        return health, exp, bossSlayed, monsterSlayed, power, 
 
 
 
@@ -211,7 +237,7 @@ def pickedAttack(attack):
     elif attack == "stab":
         damage = power + powerIncrease + 4
     elif attack == "double slash":
-        damage = power + powerIncrease + randint(0, 5)
+        damage = power + powerIncrease + randint(0, 4)
         
 
 
@@ -304,7 +330,7 @@ def levelUp(check):
                 loopAgain = False
 
             elif statIncrease == "h":
-                orginalHealth = orginalHealth + 15
+                originalHealth = originalHealth + 15
                 loopAgain = False
 
             elif statIncrease == "d":
@@ -342,7 +368,7 @@ def levelUp(check):
                 loopAgain = False
 
             elif statIncrease == "h":
-                orginalHealth = orginalHealth + 20
+                originalHealth = originalHealth + 20
                 loopAgain = False
 
             elif statIncrease == "d":
@@ -351,10 +377,3 @@ def levelUp(check):
             else:
                 print("please enter a valid input")
                 loopAgain = True
-
-
-    
-        
-
-        
-          
