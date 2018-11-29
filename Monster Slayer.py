@@ -1,6 +1,10 @@
 from monsterSlayerFunctions import *
-
 game = True
+loopNum4 = 1
+loopNum = 1
+loopNum3 = 1
+
+
 while game == True:
     play = input("Hello brave adventurer, the world is in need of saving! \n"
                   "Do you wish to slay some Monsters?(y/n) : ")
@@ -35,7 +39,6 @@ while game == True:
                 print("You're moving along the path")
                 print("")
         while playerLevel == 2:
-            loopNum = 1
             if loopNum == 1:
                 print("getting closer to city !")
             loopNum = loopNum + 1
@@ -60,10 +63,9 @@ while game == True:
                 print("")
                 
         while playerLevel == 3:
-            loopNum = 1
-            if loopNum == 1:
+            if loopNum3 == 1:
                 print("getting closer to the city !")
-            loopNum = loopNum + 1
+            loopNum3 = loopNum3 + 1
             i = randint(0, 2)
             if health <= 0:
                 isAlive = checkAlive(health)
@@ -74,10 +76,35 @@ while game == True:
                 fight = encounterMonster(monster, i)
                 health = fight[0]
                 exp = fight[1]
+                check = checkLevel(exp)
+                if check == 4:
+                    levelUp(check)
+                    playerLevel = 4
+                    sleep(0.5)
                 print("exp is now", exp)
                 print("")
                 print("You're moving along the path")
                 print("")
+        while playerLevel == 4:
+            if loopNum4 == 1:
+                print("Almost at the city !")
+                sleep(0.5)
+                print("uh oh ambushed by a gang of goblins!")
+                sleep(0.5)
+                print("goblins are usually found by themselves...")
+                sleep(0.5)
+                print("if they're grouping up this could mean trouble!")
+            loopNum4 = loopNum4 + 1
+            if health <= 0:
+                isAlive = checkAlive(health)
+                if isAlive == False:
+                    game = False
+            else:
+                i = 0
+                boss = bosses[i]
+                fight = encounterBoss(boss, i)
+
+
                 
                 
 
