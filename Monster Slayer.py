@@ -1,9 +1,11 @@
 from monsterSlayerFunctions import *
+myInterface = Tk()
+
+
 game = True
 loopNum4 = 1
 loopNum = 1
 loopNum3 = 1
-
 
 while game == True:
     play = input("Hello brave adventurer, the world is in need of saving! \n"
@@ -87,22 +89,38 @@ while game == True:
                 print("")
         while playerLevel == 4:
             if loopNum4 == 1:
-                print("Almost at the city !")
+                print("Almost at the city")
+                print("You're moving along the path")
                 sleep(0.5)
-                print("uh oh ambushed by a gang of goblins!")
+                print("Ambushed by a gang of goblins!!!")
                 sleep(0.5)
                 print("goblins are usually found by themselves...")
                 sleep(0.5)
                 print("if they're grouping up this could mean trouble!")
+                sleep(0.5)
+                print("Something could be up... I should look into this")
+                sleep(0.5)
+                print("need to beat up these filthy goblins first")
+
             loopNum4 = loopNum4 + 1
             if health <= 0:
                 isAlive = checkAlive(health)
                 if isAlive == False:
                     game = False
             else:
-                i = 0
-                boss = bosses[i]
-                fight = encounterBoss(boss, i)
+                if bossSlayed == 0:
+                    i = 0
+                    boss = bosses[i]
+                    bossFight = encounterBoss(boss, i)
+                    health = bossFight[0]
+                    exp = bossFight[1]
+                    bossSlayed = bossFight[2]
+                else:
+                    monster = monsters[i]
+                    fight = encounterMonster(monster, i)
+                    health = fight[0]
+                    exp = fight[1]
+                    check = checkLevel(exp)
 
 
                 
