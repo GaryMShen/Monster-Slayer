@@ -1,5 +1,4 @@
 from monsterSlayerFunctions import *
-myInterface = Tk()
 
 
 game = True
@@ -88,6 +87,7 @@ while game == True:
                 print("You're moving along the path")
                 print("")
         while playerLevel == 4:
+            i = randint(0,3)
             if loopNum4 == 1:
                 print("Almost at the city")
                 print("You're moving along the path")
@@ -104,14 +104,14 @@ while game == True:
 
             loopNum4 = loopNum4 + 1
             if health <= 0:
-                isAlive = checkAlive(health)
+                isAlive = checkAliveBoss(health)
                 if isAlive == False:
                     game = False
             else:
                 if bossSlayed == 0:
-                    i = 0
-                    boss = bosses[i]
-                    bossFight = encounterBoss(boss, i)
+                    x = 0
+                    boss = bosses[x]
+                    bossFight = encounterBoss(boss, x)
                     health = bossFight[0]
                     exp = bossFight[1]
                     bossSlayed = bossFight[2]
@@ -130,5 +130,8 @@ while game == True:
     elif play == "n":
         print("coward")
         game = False
+
+        
     else:
         print("please enter (y/n)")
+
