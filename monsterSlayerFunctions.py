@@ -1,379 +1,137 @@
-from math import *
-from time import *
-from random import *
-from tkinter import *
-
-global health, power, defense
+from monsterSlayerFunctions import *
 
 
+game = True
+loopNum4 = 1
+loopNum = 1
+loopNum3 = 1
+y
+while game == True:
+    play = input("Hello brave adventurer, the world is in need of saving! \n"
+                  "Do you wish to slay some Monsters?(y/n) : ")
 
-originalHealth = 50
-health = originalHealth 
-power = 1
-defense = 0
-powerIncrease = 0
-leveledUp2 = 0
-leveledUp3 = 0
-leveledUp4 = 0
-monsterSlayed = 0
-exp = 0
-playerLevel = 1
-moves = ["slash", "stab"]
-monsters = ["slime", "goblin", "gremlin"]
-monsterDrops = [" ","goblin's short sword"," "]
-monstersExp = [3,5,7]
-monstersHealth = [10,20,25]
-s = randint(1,2)
-g = randint(3,5)
-gr = randint(4,6)
-monstersDamage = [s, g, gr]
-hasGoblinSword = False
-hasRaggedLeatherVest = False
-bosses = ["Goblin squad"]
-bossHealth = [60]
-bossSlayed = 0
-numGoblins = 3
+    if play == "y":
+        print("Your legend begins!")
+        sleep(0.5)
+        print("You need to go through the forest path to get to the city")
+        sleep(0.5)
 
-
-def encounterMonster(monster, i):
-    global health, defense, monstersHealth, damage, monstersDamage, hasGoblinSword, hasRaggedLeatherVest
-    global exp, monsterSlayed, monstersExp, power
-    sleep(0.5)
-    print("Encountered a", monster,"!")
-    encounter = input("Stand and fight like a hero? (f) \n"
-          "Run like a coward? (r) : ")
-    if encounter == "f":
-        currentMonstersHealth = monstersHealth[i]
-        currentMonstersExp = monstersExp[i]
-        
-
-        bothAlive = True
-        while bothAlive == True:
-            print("moves: ")
-            s = randint(1,2)
-            g = randint(3,5)
-            gr = randint(4,6)
-            monstersDamage = [s, g, gr]
-            currentMonstersDamage = monstersDamage[i]
-  #          s.create_rectangle(10, 10, 10 + health, 20, fill = "red")
-
-            
-            for i in range(0,len(moves)):
-                print(moves[i],"(",i,")")
-            number = int(input("how will you attack? : "))
-            if len(moves) == 3:
-                while number != 0 and number != 1 and number !=2:
-                   number = int(input("how will you attack? (please enter a valid input): "))
-
-            elif len(moves) == 2:
-                while number != 0 and number != 1:
-                   number = int(input("how will you attack? (please enter a valid input): "))
-                
-
-            attack = moves[number]
-            pickedAttack(attack)
-            if number == 2:
-                currentMonstersHealth = currentMonstersHealth - damage
-                print("you did", damage, "damage! the", monster,"'s health is now:", currentMonstersHealth)
-                print("slash again!")
-                pickedAttack(attack)
-
-                currentMonstersHealth = currentMonstersHealth - damage
-                print("you did", damage, "damage! the", monster,"'s health is now:", currentMonstersHealth)
-            else:
-                currentMonstersHealth = currentMonstersHealth - damage
-                print("you did", damage, "damage! the", monster,"'s health is now:", currentMonstersHealth)
-                
-            trueMonstersDamage = currentMonstersDamage - defense
-
-            if currentMonstersHealth < 0:
-                currentMonstersHealth = 0
-                
+        print("You pick up a sturdy stick, it'll have to do as a weapon for now... ")
+        while playerLevel == 1:
+            i = randint(0, 1)
+            monster = monsters[i]
 
             if health <= 0:
-                print("death falls on you")
-                print(monster, "dealt a fatal blow!")
-
-                print("you slayed", monsterSlayed, "monsters")
-                bothAlive = False
-
-            elif currentMonstersHealth == 0:
-                exp = exp + currentMonstersExp
-                monsterSlayed = monsterSlayed + 1
-                print("you slayed", monster,"!")
-                print("exp went up by", currentMonstersExp, "!")
-                print("you have slayed", monsterSlayed, "monsters !")
-                if monster == "goblin" and hasGoblinSword == False:
-                    drop = randint(1,3)
-                    if drop == 1:
-                        print("goblin short sword with power 2 dropped!")
-                        pickUp = input("Pick up item? (y/n) : ")
-                        if pickUp == "y":
-                            power = 2
-                            hasGoblinSword = True
-                            print("item successfully picked up!")
-                            bothAlive = False
-                if monster == "gremlin" and hasRaggedLeatherVest == False:
-                    drop = randint(1,5)
-                    if drop == 1:
-                        print("Ragged Leather Vest with defense 1 dropped!")
-                        pickUp = input("Pick up item? (y/n) : ")
-                        if pickUp == "y":
-                            defense = defense + 1
-                            hasRaggedLeatherVest = True
-                            print("item successfully picked up!")
-                            bothAlive = False
-
-                bothAlive = False
-            
+                isAlive = checkAlive(health)
+                if isAlive == False:
+                    game = False
             else:
-                health = health - trueMonstersDamage
-                print(monster,"did", trueMonstersDamage, "damage! your health is now:", health)
-                            
-        return health, exp, monsterSlayed, power
-    
-    elif encounter == "r":
-        damage = randint(1,5) - defense
-        health = health - damage
-        if health > 0:
-            print("got away safely this time but you took", damage, "damage!")
-            print("your health is", health)
-        if health <= 0:
-            print("death falls on you")
-            game = False
-        return health, exp, monsterSlayed
+                    
+                fight = encounterMonster(monster, i)
+                health = fight[0]
+                exp = fight[1]
+                print("exp is now", exp)
+                check = checkLevel(exp)
+                if check == 2:
+                    levelUp(check)
+                    playerLevel = 2
+                    sleep(0.5)
+                print("")
+                print("You're moving along the path")
+                print("")
+        while playerLevel == 2:
+            if loopNum == 1:
+                print("getting closer to city !")
+            loopNum = loopNum + 1
+            i = randint(0, 2)
+            if health <= 0:
+                isAlive = checkAlive(health, monster)
+                if isAlive == False:
+                    game = False
+            else:
+                monster = monsters[i]
+                fight = encounterMonster(monster, i)
+                health = fight[0]
+                exp = fight[1]
+                print("exp is now", exp)
+                check = checkLevel(exp)
+                if check == 3:
+                    levelUp(check)
+                    playerLevel = 3
+                    sleep(0.5)
+                print("")
+                print("You're moving along the path")
+                print("")
+                
+        while playerLevel == 3:
+            if loopNum3 == 1:
+                print("getting closer to the city !")
+            loopNum3 = loopNum3 + 1
+            i = randint(0, 2)
+            if health <= 0:
+                isAlive = checkAlive(health)
+                if isAlive == False:
+                    game = False
+            else:
+                monster = monsters[i]
+                fight = encounterMonster(monster, i)
+                health = fight[0]
+                exp = fight[1]
+                check = checkLevel(exp)
+                if check == 4:
+                    levelUp(check)
+                    playerLevel = 4
+                    sleep(0.5)
+                print("exp is now", exp)
+                print("")
+                print("You're moving along the path")
+                print("")
+        while playerLevel == 4:
+            i = randint(0,3)
+            if loopNum4 == 1:
+                print("Almost at the city")
+                print("You're moving along the path")
+                sleep(0.5)
+                print("Ambushed by a gang of goblins!!!")
+                sleep(0.5)
+                print("goblins are usually found by themselves...")
+                sleep(0.5)
+                print("if they're grouping up this could mean trouble!")
+                sleep(0.5)
+                print("Something could be up... I should look into this")
+                sleep(0.5)
+                print("need to beat up these filthy goblins first")
 
+            loopNum4 = loopNum4 + 1
+            if health <= 0:
+                isAlive = checkAliveBoss(health)
+                if isAlive == False:
+                    game = False
+            else:
+                if bossSlayed == 0:
+                    x = 0
+                    boss = bosses[x]
+                    bossFight = encounterBoss(boss, x)
+                    health = bossFight[0]
+                    exp = bossFight[1]
+                    bossSlayed = bossFight[2]
+                else:
+                    monster = monsters[i]
+                    fight = encounterMonster(monster, i)
+                    health = fight[0]
+                    exp = fight[1]
+                    check = checkLevel(exp)
+
+
+                
+                
+
+                      
+    elif play == "n":
+        print("coward")
+        game = False
+
+        
     else:
-        print("please enter (f/r)")
-        return health, exp
-currentBossHealth = 60
-bothAlive = True
+        print("please enter (y/n)")
 
-def encounterBoss(boss, i): #add individuals goblins health
-    global health, defense, monstersHealth, damage, monstersDamage, currentBossHealth
-    global exp, monsterSlayed, monstersExp, power, numGoblins, bossSlayed, bothAlive
-
-    
-
-    while bothAlive == True:
-
-        print("moves: ")
-        gs = randint(4, 6)
-        bossDamage = [gs]
-        currentBossDamage = bossDamage[i]
-        if i == 0:
-            
-            for i in range(0,len(moves)):
-                print(moves[i],"(",i,")")
-            number = int(input("how will you attack? : "))
-            
-            attack = moves[number]
-            pickedAttack(attack)
-
-            if len(moves) == 3:
-                while number != 0 and number != 1 and number !=2:
-                   number = int(input("how will you attack? (please enter a valid input): "))
-
-            elif len(moves) == 2:
-                while number != 0 and number != 1:
-                   number = int(input("how will you attack? (please enter a valid input): "))
-            if number == 2:
-                currentBossHealth = currentBossHealth - damage
-                print("you did", damage, "damage! the", boss,"'s health is now:", currentBossHealth)
-                print("slash again!")
-                pickedAttack(attack)
-
-                currentBossHealth = currentBossHealth - damage
-                print("you did", damage, "damage! the", boss,"'s health is now:", currentBossHealth)
-
-            else:
-                currentBossHealth = currentBossHealth - damage
-                print("you did", damage, "damage! the", boss,"'s health is now:", currentBossHealth)
-
-                
-            trueBossDamage = currentBossDamage - defense
-            if currentBossHealth < 20:
-                
-                print("You've slayed two goblins!")
-                print("one left!")
-                numGoblins = 1
-            elif currentBossHealth < 40:
-                print("You've slayed one goblin!")
-                numGoblins = 2
-
-            
-                
-
-            if health <= 0:
-                print("death falls on you")
-                print(boss, "dealt a fatal blow!")
-
-                print("you slayed", monsterSlayed, "monsters")
-                bothAlive = False
-
-            elif currentBossHealth <= 0:
-                exp = exp + 25
-                bossSlayed = bossSlayed + 1
-                print("you slayed", boss,"!")
-                print("exp went up by 25")
-                print("you have slayed", monsterSlayed, "monsters !")
-                print("you have slayed", bossSlayed, "bosses !")
-                bothAlive = False
-            
-            else:
-                for i in range(0,numGoblins):
-                    health = health - trueBossDamage
-                    print("goblin", i, "did", trueBossDamage, "damage! your health is now:", health)
-                            
-        return health, exp, bossSlayed, monsterSlayed, power, 
-
-
-
-
-def pickedAttack(attack):
-    global power, damage
-    if attack == "slash":
-        damage = power + powerIncrease + randint(0, 9)
-    elif attack == "stab":
-        damage = power + powerIncrease + 4
-    elif attack == "double slash":
-        damage = power + powerIncrease + randint(0, 4)
-        
-
-
-    return damage
-
-def checkAlive(health, monster):
-    if health <= 0:
-
-        return False
-
-def checkLevel(exp):
-    if exp > 60:
-        playerLevel = 4
-        return playerLevel
-
-    elif exp > 35:
-        playerLevel = 3
-        return playerLevel
-
-    elif exp > 15:
-        playerLevel = 2
-        return playerLevel
-
-
-
-
-def levelUp(check):
-    global power, health, defense, leveledUp2, leveledUp3, leveledUp4, powerIncrease, originalHealth
-    if check == 2 and leveledUp2 == 0:
-        leveledUp2 = 1
-        print("*"*30)
-        print("LEVEL UP!")
-        print("*"*30)
-
-        health = originalHealth
-        print("Level 2")
-        print("you're now fully healed, health is now", health)
-        print("pick a stat to level up:" )
-        print("current stats")
-        print("-"*30)
-        print("power   ( p ) : ", power)
-        print("health  ( h ) : ", health)
-        print("defense ( d ) : ", defense)
-
-        statIncrease = input("enter what you would like to power up here :")
-        loopAgain = True
-        if loopAgain == True:
-            if statIncrease == "p":
-                powerIncrease = 0.5
-                print("power level increased !")
-                loopAgain = False
-
-            elif statIncrease == "h":
-                originalHealth = originalHealth + 10
-                health = originalHealth
-                print("health increased !")
-                loopAgain = False
-
-            elif statIncrease == "d":
-                defense = defense + 0.5
-                print("defense level increased !")
-                loopAgain = False
-            else:
-                print("please enter a valid input")
-                loopAgain = True
-            
-                
-    elif check == 3 and leveledUp3 == 0:
-        leveledUp3 = 1
-
-        print("*"*30)
-        print("LEVEL UP!")
-        print("*"*30)
-
-        health = originalHealth
-        print("Level 3")
-        print("you're now fully healed, health is now", health)
-        print("pick a stat to level up: ")
-        print("current stats")
-        print("-"*30)
-        print("power   ( p ) : ", power)
-        print("health  ( h ) : ", health)
-        print("defense ( d ) : ", defense)
-
-        statIncrease = input("enter what you would like to power up here :")
-        loopAgain = True
-        if loopAgain == True:
-            if statIncrease == "p":
-                powerIncrease = 1.5
-                loopAgain = False
-
-            elif statIncrease == "h":
-                originalHealth = originalHealth + 15
-                loopAgain = False
-
-            elif statIncrease == "d":
-                defense = defense + 1.5
-                loopAgain = False
-            else:
-                print("please enter a valid input")
-                loopAgain = True
-
-        print("new move learned! : double slash")
-        moves.append("double slash")
-
-    elif check == 4 and leveledUp4 == 0:
-        leveledUp4 = 1
-
-        print("*"*30)
-        print("LEVEL UP!")
-        print("*"*30)
-
-        health = originalHealth
-        print("Level 4")
-        print("you're now fully healed, health is now", health)
-        print("pick a stat to level up: ")
-        print("current stats")
-        print("-"*30)
-        print("power   ( p ) : ", power)
-        print("health  ( h ) : ", health)
-        print("defense ( d ) : ", defense)
-
-        statIncrease = input("enter what you would like to power up here :")
-        loopAgain = True
-        if loopAgain == True:
-            if statIncrease == "p":
-                powerIncrease = 2
-                loopAgain = False
-
-            elif statIncrease == "h":
-                originalHealth = originalHealth + 20
-                loopAgain = False
-
-            elif statIncrease == "d":
-                defense = defense + 2
-                loopAgain = False
-            else:
-                print("please enter a valid input")
-                loopAgain = True
