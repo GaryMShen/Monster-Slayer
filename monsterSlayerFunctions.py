@@ -5,7 +5,7 @@ from random import *
 global health, power, defense
 
 
-
+gold = 0
 originalHealth = 50
 health = originalHealth 
 power = 1
@@ -20,12 +20,18 @@ playerLevel = 1
 moves = ["slash", "stab"]
 monsters = ["slime", "goblin", "gremlin", "giant snake"]
 monsterDrops = [" ","goblin's short sword"," "]
-monstersExp = [3,5,7, 10]
+monstersExp = [3,5,7,10]
 monstersHealth = [10,20,25,40]
 s = randint(1,2)
 g = randint(3,5)
 gr = randint(4,6)
 gs = randint(6,8)
+g1 = randint(1,2)
+g2 = randint(2,3)
+g3 = randint(4,5)
+g4 = randint(7,9)
+monsterGold = [g1, g2, g3, g4]
+
 monstersDamage = [s, g, gr, gs]
 hasGoblinSword = False
 hasRaggedLeatherVest = False
@@ -37,7 +43,7 @@ numGoblins = 3
 
 def encounterMonster(monster, i):
     global health, defense, monstersHealth, damage, monstersDamage, hasGoblinSword, hasRaggedLeatherVest
-    global exp, monsterSlayed, monstersExp, power
+    global exp, monsterSlayed, monstersExp, power, gold
     sleep(0.5)
     print("Encountered a", monster,"!")
     encounter = input("Stand and fight like a hero? (f) \n"
@@ -54,7 +60,14 @@ def encounterMonster(monster, i):
             g = randint(3,5)
             gr = randint(4,6)
             gs = randint(6, 8)
+            g1 = randint(1,2)
+            g2 = randint(2,3)
+            g3 = randint(4,5)
+            g4 = randint(7,9)
             monstersDamage = [s, g, gr, gs]
+            monsterGold = [g1, g2, g3, g4]
+            currentMonstersGold = monsterGold[i]
+
             currentMonstersDamage = monstersDamage[i]
   #          s.create_rectangle(10, 10, 10 + health, 20, fill = "red")
 
@@ -99,6 +112,8 @@ def encounterMonster(monster, i):
                 bothAlive = False
 
             elif currentMonstersHealth == 0:
+                gold = gold + currentMonstersGold
+                print("you now have", gold, "gold")
                 exp = exp + currentMonstersExp
                 monsterSlayed = monsterSlayed + 1
                 print("you slayed", monster,"!")
@@ -132,7 +147,7 @@ def encounterMonster(monster, i):
                 health = health - trueMonstersDamage
                 print(monster,"did", trueMonstersDamage, "damage! your health is now:", health)
                             
-        return health, exp, monsterSlayed, power
+        return health, exp, monsterSlayed, power, gold
     
     elif encounter == "r":
         damage = randint(1,5) - defense
@@ -388,4 +403,3 @@ def levelUp(check):
             else:
                 print("please enter a valid input")
                 loopAgain = True
-
