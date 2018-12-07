@@ -291,7 +291,7 @@ def checkLevel(exp):
 
 
 def levelUp(check):
-    global power, health, defense, leveledUp2, leveledUp3, leveledUp4, powerIncrease, originalHealth
+    global gold, power, health, defense, leveledUp2, leveledUp3, leveledUp4, powerIncrease, originalHealth
     if check == 2 and leveledUp2 == 0:
         leveledUp2 = 1
         print("*"*30)
@@ -337,7 +337,7 @@ def levelUp(check):
         print("*"*30)
         print("LEVEL UP!")
         print("*"*30)
-
+        
         health = originalHealth
         print("Level 3")
         print("you're now fully healed, health is now", health)
@@ -371,7 +371,26 @@ def levelUp(check):
 
     elif check == 4 and leveledUp4 == 0:
         leveledUp4 = 1
-
+        print("Bumped into a merchant coming back from the city!")
+        buy = input("Merchant: Would you like to buy one of my items?: Copper Short-sword(Power 3) : 100g (c), ChainMail(Defense 3) : 100g (m), none(n)")
+        if buy == c:
+            if gold == 100 or gold > 100:
+                print("Merchant: thank you for buying buying the Copper Short-sword! Hopefully it serves you well")
+                power = 3
+                gold = gold - 100
+            else:
+                print("Merchant: you don't have enough gold!")
+        elif buy == m:
+            if gold == 100 or gold > 100:
+                print("Merchant: thank you for buying buying the ChainMail! Hopefully it serves you well")
+                defense = 3
+                gold = gold - 100
+            else:
+                print("Merchant: you don't have enough gold!")
+        elif buy == n:
+            print("Merchant: that's too bad hopefully we'll be able to do business next time")
+        else:
+            print("please enter a valid input")
         print("*"*30)
         print("LEVEL UP!")
         print("*"*30)
