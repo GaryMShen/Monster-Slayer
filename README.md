@@ -1,3 +1,3 @@
 # Monster-Slayer
-Discontinued until further notice
-Python Text Based RPG with turn based combat.
+Incomplete but playable Python Text Based RPG with turn based combat.
+
