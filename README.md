@@ -1,3 +1,3 @@
 # Monster-Slayer
-Incomplete but playable Python Text Based RPG with turn based combat.
+Incomplete but playable Python Text RPG with turn based combat.
 
